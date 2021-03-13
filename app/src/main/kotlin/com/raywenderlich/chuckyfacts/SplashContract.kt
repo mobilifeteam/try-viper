@@ -23,14 +23,14 @@
 package com.raywenderlich.chuckyfacts
 
 interface SplashContract {
-  interface View {
-    fun finishView()
-  }
+    interface View {
+        fun finishView()
+    }
 
-  interface Presenter {
-    // Model updates
-    fun onViewCreated()
+    interface Presenter {
+        val view: View
 
-    fun onDestroy()
-  }
+        // Model updates
+        fun onViewCreated()
+    }
 }

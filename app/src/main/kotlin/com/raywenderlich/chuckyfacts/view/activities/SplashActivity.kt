@@ -68,9 +68,4 @@ class SplashActivity : ScopeActivity(), SplashContract.View {
         // close splash activity
         finish()
     }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
 }
