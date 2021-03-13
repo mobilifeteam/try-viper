@@ -37,19 +37,15 @@ import com.raywenderlich.chuckyfacts.entity.Joke
 import ru.terrakok.cicerone.Router
 
 
-class DetailPresenter(private var view: DetailContract.View?) : DetailContract.Presenter {
+class DetailPresenter(override var view: DetailContract.View) : DetailContract.Presenter {
 
-  private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
+    private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
 
-  override fun backButtonClicked() {
-    router?.exit()
-  }
+    override fun backButtonClicked() {
+        router?.exit()
+    }
 
-  override fun onViewCreated(joke: Joke) {
-    view?.showJokeData(joke.id.toString(), joke.text)
-  }
-
-  override fun onDestroy() {
-    view = null
-  }
+    override fun onViewCreated(joke: Joke) {
+        view.showJokeData(joke.id.toString(), joke.text)
+    }
 }

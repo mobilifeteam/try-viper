@@ -23,15 +23,13 @@
 package com.raywenderlich.chuckyfacts.view.activities
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.raywenderlich.chuckyfacts.BaseApplication
 import com.raywenderlich.chuckyfacts.DetailContract
-import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.R
 import com.raywenderlich.chuckyfacts.entity.Joke
-import com.raywenderlich.chuckyfacts.presenter.DetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
 import org.jetbrains.anko.toast
@@ -42,75 +40,70 @@ import ru.terrakok.cicerone.commands.Command
 
 class DetailActivity : BaseActivity(), DetailContract.View {
 
-  companion object {
-    val TAG = "DetailActivity"
-  }
+    companion object {
+        const val TAG = "DetailActivity"
+    }
 
-  private val navigator: Navigator? by lazy {
-    object : Navigator {
-      override fun applyCommand(command: Command) {
-        if (command is Back) {
-          back()
+    private val navigator: Navigator? by lazy {
+        object : Navigator {
+            override fun applyCommand(command: Command) {
+                if (command is Back) {
+                    back()
+                }
+            }
+
+            private fun back() {
+                finish()
+            }
         }
-      }
-
-      private fun back() {
-        finish()
-      }
     }
-  }
 
-  private val presenter: DetailContract.Presenter by inject { parametersOf(this) }
-  private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
-  private val tvId: TextView? by lazy { tv_joke_id_activity_detail }
-  private val tvJoke: TextView? by lazy { tv_joke_activity_detail }
+    private val presenter: DetailContract.Presenter by inject { parametersOf(this) }
+    private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
+    private val tvId: TextView? by lazy { tv_joke_id_activity_detail }
+    private val tvJoke: TextView? by lazy { tv_joke_activity_detail }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_detail)
-  }
-
-  override fun onResume() {
-    super.onResume()
-    // add back arrow to toolbar
-    supportActionBar?.let {
-      supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_detail)
     }
-    // load invoking arguments
-    val argument = intent.getParcelableExtra<Joke>("data")
-    argument?.let { presenter.onViewCreated(it) }
 
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
-  }
+    override fun onResume() {
+        super.onResume()
+        // add back arrow to toolbar
+        supportActionBar?.let {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        // load invoking arguments
+        val argument = intent.getParcelableExtra<Joke>("data")
+        argument?.let { presenter.onViewCreated(it) }
 
-  override fun onPause() {
-    super.onPause()
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    return when (item?.itemId) {
-      android.R.id.home -> {
-        presenter.backButtonClicked()
-        true
-      }
-      else -> false
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
     }
-  }
 
-  override fun onDestroy() {
-    presenter.onDestroy()
-    super.onDestroy()
-  }
+    override fun onPause() {
+        super.onPause()
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
+    }
 
-  override fun getToolbarInstance(): Toolbar = toolbar
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                presenter.backButtonClicked()
+                true
+            }
+            else -> false
+        }
+    }
 
-  override fun showJokeData(id: String, joke: String) {
-    tvId?.text = id
-    tvJoke?.text = joke
-  }
+    override fun getToolbarInstance(): Toolbar = toolbar
 
-  override fun showInfoMessage(msg: String) {
-    toast(msg)
-  }
+    override fun showJokeData(id: String, joke: String) {
+        tvId?.text = id
+        tvJoke?.text = joke
+    }
+
+    override fun showInfoMessage(msg: String) {
+        toast(msg)
+    }
 }

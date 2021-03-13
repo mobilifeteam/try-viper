@@ -25,18 +25,18 @@ package com.raywenderlich.chuckyfacts
 import com.raywenderlich.chuckyfacts.entity.Joke
 
 interface DetailContract {
-  interface View {
-    fun showJokeData(id: String, joke: String)
-    fun showInfoMessage(msg: String)
-  }
+    interface View {
+        fun showJokeData(id: String, joke: String)
+        fun showInfoMessage(msg: String)
+    }
 
-  interface Presenter {
-    // User actions
-    fun backButtonClicked()
+    interface Presenter {
+        val view: View
 
-    // Model updates
-    fun onViewCreated(joke: Joke)
+        // User actions
+        fun backButtonClicked()
 
-    fun onDestroy()
-  }
+        // Model updates
+        fun onViewCreated(joke: Joke)
+    }
 }
