@@ -28,29 +28,31 @@ import com.github.kittinunf.result.Result
 import com.raywenderlich.chuckyfacts.entity.Joke
 
 interface MainContract {
-  interface View {
-    fun showLoading()
-    fun hideLoading()
-    fun publishDataList(data: List<Joke>)
-    fun showInfoMessage(msg: String)
-  }
+    interface View {
+        fun showLoading()
+        fun hideLoading()
+        fun publishDataList(data: List<Joke>)
+        fun showInfoMessage(msg: String)
+    }
 
-  interface Presenter {
-    // User actions
-    fun listItemClicked(joke: Joke?)
+    interface Presenter {
+        val view: View
 
-    // Model updates
-    fun onViewCreated()
+        // User actions
+        fun listItemClicked(joke: Joke?)
 
-    fun onDestroy()
-  }
+        // Model updates
+        fun onViewCreated()
 
-  interface Interactor {
-    fun loadJokesList(interactorOutput: (result: Result<Json, FuelError>) -> Unit)
-  }
+        fun onDestroy()
+    }
 
-  interface InteractorOutput {
-    fun onQuerySuccess(data: List<Joke>)
-    fun onQueryError()
-  }
+    interface Interactor {
+        fun loadJokesList(interactorOutput: (result: Result<Json, FuelError>) -> Unit)
+    }
+
+    interface InteractorOutput {
+        fun onQuerySuccess(data: List<Joke>)
+        fun onQueryError()
+    }
 }

@@ -42,47 +42,46 @@ import com.raywenderlich.chuckyfacts.view.activities.DetailActivity
 import ru.terrakok.cicerone.Router
 
 
-class MainPresenter(private var view: MainContract.View?) : MainContract.Presenter, MainContract.InteractorOutput {
+class MainPresenter(override var view: MainContract.View) : MainContract.Presenter, MainContract.InteractorOutput {
 
-  private var interactor: MainContract.Interactor? = MainInteractor()
-  private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
+    private var interactor: MainContract.Interactor? = MainInteractor()
+    private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
 
-  override fun listItemClicked(joke: Joke?) {
-    router?.navigateTo(DetailActivity.TAG, joke)
-  }
-
-  override fun onViewCreated() {
-    view?.showLoading()
-    interactor?.loadJokesList { result ->
-      when (result) {
-        is Result.Failure -> {
-          this.onQueryError()
-        }
-        is Result.Success -> {
-          val jokesJsonObject = result.get().obj()
-
-          val type = object : TypeToken<List<Joke>>() {}.type
-          val jokesList: List<Joke> =
-              Gson().fromJson(jokesJsonObject.getJSONArray("value").toString(), type)
-
-          this.onQuerySuccess(jokesList)
-        }
-      }
+    override fun listItemClicked(joke: Joke?) {
+        router?.navigateTo(DetailActivity.TAG, joke)
     }
-  }
 
-  override fun onQuerySuccess(data: List<Joke>) {
-    view?.hideLoading()
-    view?.publishDataList(data)
-  }
+    override fun onViewCreated() {
+        view.showLoading()
+        interactor?.loadJokesList { result ->
+            when (result) {
+                is Result.Failure -> {
+                    this.onQueryError()
+                }
+                is Result.Success -> {
+                    val jokesJsonObject = result.get().obj()
 
-  override fun onQueryError() {
-    view?.hideLoading()
-    view?.showInfoMessage("Error when loading data")
-  }
+                    val type = object : TypeToken<List<Joke>>() {}.type
+                    val jokesList: List<Joke> =
+                            Gson().fromJson(jokesJsonObject.getJSONArray("value").toString(), type)
 
-  override fun onDestroy() {
-    view = null
-    interactor = null
-  }
+                    this.onQuerySuccess(jokesList)
+                }
+            }
+        }
+    }
+
+    override fun onQuerySuccess(data: List<Joke>) {
+        view.hideLoading()
+        view.publishDataList(data)
+    }
+
+    override fun onQueryError() {
+        view.hideLoading()
+        view.showInfoMessage("Error when loading data")
+    }
+
+    override fun onDestroy() {
+        interactor = null
+    }
 }

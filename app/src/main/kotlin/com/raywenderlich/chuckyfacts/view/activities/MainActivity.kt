@@ -48,76 +48,76 @@ import ru.terrakok.cicerone.commands.Forward
 
 class MainActivity : BaseActivity(), MainContract.View {
 
-  companion object {
-    const val TAG: String = "MainActivity"
-  }
-
-  private val navigator: Navigator? by lazy {
-    object : Navigator {
-      override fun applyCommand(command: Command) {
-        if (command is Forward) {
-          forward(command)
-        }
-      }
-
-      private fun forward(command: Forward) {
-        val data = (command.transitionData as Joke)
-
-        when (command.screenKey) {
-          DetailActivity.TAG -> startActivity(Intent(this@MainActivity, DetailActivity::class.java)
-              .putExtra("data", data as Parcelable))   // 4
-          else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
-        }
-      }
+    companion object {
+        const val TAG: String = "MainActivity"
     }
-  }
 
-  private val presenter: MainContract.Presenter by inject { parametersOf(this) }
-  private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
-  private val recyclerView: RecyclerView by lazy { rv_jokes_list_activity_main }
-  private val progressBar: ProgressBar by lazy { prog_bar_loading_jokes_activity_main }
+    private val navigator: Navigator? by lazy {
+        object : Navigator {
+            override fun applyCommand(command: Command) {
+                if (command is Forward) {
+                    forward(command)
+                }
+            }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+            private fun forward(command: Forward) {
+                val data = (command.transitionData as Joke)
 
-    recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-    recyclerView.adapter = JokesListAdapter({ joke -> presenter.listItemClicked(joke) }, null)
-  }
+                when (command.screenKey) {
+                  DetailActivity.TAG -> startActivity(Intent(this@MainActivity, DetailActivity::class.java)
+                          .putExtra("data", data as Parcelable))   // 4
+                    else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
+                }
+            }
+        }
+    }
 
-  override fun onResume() {
-    super.onResume()
-    presenter.onViewCreated()
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
-  }
+    private val presenter: MainContract.Presenter by inject { parametersOf(this) }
+    private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
+    private val recyclerView: RecyclerView by lazy { rv_jokes_list_activity_main }
+    private val progressBar: ProgressBar by lazy { prog_bar_loading_jokes_activity_main }
 
-  override fun onPause() {
-    super.onPause()
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
-  }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-  override fun onDestroy() {
-    presenter.onDestroy()
-    super.onDestroy()
-  }
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = JokesListAdapter({ joke -> presenter.listItemClicked(joke) }, null)
+    }
 
-  override fun getToolbarInstance(): Toolbar = toolbar
+    override fun onResume() {
+        super.onResume()
+        presenter.onViewCreated()
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
+    }
 
-  override fun showLoading() {
-    recyclerView.isEnabled = false
-    progressBar.visibility = View.VISIBLE
-  }
+    override fun onPause() {
+        super.onPause()
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
+    }
 
-  override fun hideLoading() {
-    recyclerView.isEnabled = true
-    progressBar.visibility = View.GONE
-  }
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
 
-  override fun publishDataList(data: List<Joke>) {
-    (recyclerView.adapter as JokesListAdapter).updateData(data)
-  }
+    override fun getToolbarInstance(): Toolbar = toolbar
 
-  override fun showInfoMessage(msg: String) {
-    toast(msg)
-  }
+    override fun showLoading() {
+        recyclerView.isEnabled = false
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        recyclerView.isEnabled = true
+        progressBar.visibility = View.GONE
+    }
+
+    override fun publishDataList(data: List<Joke>) {
+        (recyclerView.adapter as JokesListAdapter).updateData(data)
+    }
+
+    override fun showInfoMessage(msg: String) {
+        toast(msg)
+    }
 }
