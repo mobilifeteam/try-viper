@@ -14,10 +14,38 @@ android {
     versionName "1.0"
     testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
   }
+
   buildTypes {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  flavorDimensions "default"
+  productFlavors {
+    dev {
+      manifestPlaceholders = [appName: '(DEV) Test App']
+      applicationIdSuffix ".dev"
+      buildConfigField 'String', 'END_POINT', '"https://smartdevice.tnis.com:14443/"'
+      buildConfigField 'String', 'API_VERSION', '"/latest"'
+    }
+    sit {
+      manifestPlaceholders = [appName: '(SIT) Test App']
+      applicationIdSuffix ".sit"
+      buildConfigField 'String', 'END_POINT', '"https://smartdevice.tnis.com:15443/"'
+      buildConfigField 'String', 'API_VERSION', '"/v3.0"'
+    }
+    uat {
+      manifestPlaceholders = [appName: '(UAT) Test App']
+      applicationIdSuffix ".uat"
+      buildConfigField 'String', 'END_POINT', '"https://smartdevicenonprd.gsb.or.th:5443/"'
+      buildConfigField 'String', 'API_VERSION', '"/v3.0"'
+    }
+    prd {
+      manifestPlaceholders = [appName: 'Test App']
+      buildConfigField 'String', 'END_POINT', '"https://smartdevice.gsb.or.th:5443/"'
+      buildConfigField 'String', 'API_VERSION', '"/v3.0"'
     }
   }
 
