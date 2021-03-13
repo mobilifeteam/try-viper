@@ -23,60 +23,54 @@
 package com.raywenderlich.chuckyfacts.view.activities
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.raywenderlich.chuckyfacts.BaseApplication
 import com.raywenderlich.chuckyfacts.SplashContract
-import com.raywenderlich.chuckyfacts.presenter.SplashPresenter
+import org.koin.androidx.scope.ScopeActivity
+import org.koin.core.parameter.parametersOf
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Forward
 
-class SplashActivity : AppCompatActivity(), SplashContract.View {
+class SplashActivity : ScopeActivity(), SplashContract.View {
+    private val presenter: SplashContract.Presenter by inject { parametersOf(this) }
 
-  private val navigator: Navigator? by lazy {
-    object : Navigator {
-      override fun applyCommand(command: Command) {
-        if (command is Forward) {
-          forward(command)
-        }
-      }
+    private val navigator: Navigator? by lazy {
+        object : Navigator {
+            override fun applyCommand(command: Command) {
+                if (command is Forward) {
+                    forward(command)
+                }
+            }
 
-      private fun forward(command: Forward) {
-        when (command.screenKey) {
-          MainActivity.TAG -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-          else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
+            private fun forward(command: Forward) {
+                when (command.screenKey) {
+                    MainActivity.TAG -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
+                }
+            }
         }
-      }
     }
-  }
-  private var presenter: SplashContract.Presenter? = null
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    presenter = SplashPresenter(this)
-  }
 
-  override fun onResume() {
-    super.onResume()
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
-    presenter?.onViewCreated()
-  }
+    override fun onResume() {
+        super.onResume()
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
+        presenter.onViewCreated()
+    }
 
-  override fun onPause() {
-    super.onPause()
-    BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
-  }
+    override fun onPause() {
+        super.onPause()
+        BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
+    }
 
-  override fun finishView() {
-    // close splash activity
-    finish()
-  }
+    override fun finishView() {
+        // close splash activity
+        finish()
+    }
 
-  override fun onDestroy() {
-    presenter?.onDestroy()
-    presenter = null
-    super.onDestroy()
-  }
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
 }

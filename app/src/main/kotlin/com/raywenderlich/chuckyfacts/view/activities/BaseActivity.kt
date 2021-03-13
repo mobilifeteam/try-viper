@@ -22,10 +22,10 @@
 
 package com.raywenderlich.chuckyfacts.view.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import org.koin.androidx.scope.ScopeActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : ScopeActivity() {
 
   override fun onResume() {
     super.onResume()

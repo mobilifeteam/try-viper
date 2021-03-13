@@ -21,6 +21,15 @@ android {
     }
   }
 
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
+  }
+
   // Although Gradle will compile any Kotlin files it finds in 'src/main/java', it's good practice
   // to store your Kotlin files in card_view_custom_layout dedicated Kotlin directory
   sourceSets {

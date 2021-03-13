@@ -28,12 +28,14 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.raywenderlich.chuckyfacts.BaseApplication
 import com.raywenderlich.chuckyfacts.DetailContract
+import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.R
 import com.raywenderlich.chuckyfacts.entity.Joke
 import com.raywenderlich.chuckyfacts.presenter.DetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
 import org.jetbrains.anko.toast
+import org.koin.core.parameter.parametersOf
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.Back
 import ru.terrakok.cicerone.commands.Command
@@ -58,7 +60,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
   }
 
-  private var presenter: DetailContract.Presenter? = null
+  private val presenter: DetailContract.Presenter by inject { parametersOf(this) }
   private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
   private val tvId: TextView? by lazy { tv_joke_id_activity_detail }
   private val tvJoke: TextView? by lazy { tv_joke_activity_detail }
@@ -66,8 +68,6 @@ class DetailActivity : BaseActivity(), DetailContract.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_detail)
-
-    presenter = DetailPresenter(this)
   }
 
   override fun onResume() {
@@ -78,7 +78,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
     // load invoking arguments
     val argument = intent.getParcelableExtra<Joke>("data")
-    argument?.let { presenter?.onViewCreated(it) }
+    argument?.let { presenter.onViewCreated(it) }
 
     BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
   }
@@ -91,7 +91,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     return when (item?.itemId) {
       android.R.id.home -> {
-        presenter?.backButtonClicked()
+        presenter.backButtonClicked()
         true
       }
       else -> false
@@ -99,12 +99,11 @@ class DetailActivity : BaseActivity(), DetailContract.View {
   }
 
   override fun onDestroy() {
-    presenter?.onDestroy()
-    presenter = null
+    presenter.onDestroy()
     super.onDestroy()
   }
 
-  override fun getToolbarInstance(): androidx.appcompat.widget.Toolbar? = toolbar
+  override fun getToolbarInstance(): Toolbar = toolbar
 
   override fun showJokeData(id: String, joke: String) {
     tvId?.text = id

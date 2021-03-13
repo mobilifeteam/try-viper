@@ -34,12 +34,14 @@ import android.widget.ProgressBar
 import com.raywenderlich.chuckyfacts.BaseApplication
 import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.R
+import com.raywenderlich.chuckyfacts.SplashContract
 import com.raywenderlich.chuckyfacts.entity.Joke
 import com.raywenderlich.chuckyfacts.presenter.MainPresenter
 import com.raywenderlich.chuckyfacts.view.adapters.JokesListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
 import org.jetbrains.anko.toast
+import org.koin.core.parameter.parametersOf
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Forward
@@ -47,7 +49,7 @@ import ru.terrakok.cicerone.commands.Forward
 class MainActivity : BaseActivity(), MainContract.View {
 
   companion object {
-    val TAG: String = "MainActivity"
+    const val TAG: String = "MainActivity"
   }
 
   private val navigator: Navigator? by lazy {
@@ -70,7 +72,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
   }
 
-  private var presenter: MainContract.Presenter? = null
+  private val presenter: MainContract.Presenter by inject { parametersOf(this) }
   private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
   private val recyclerView: RecyclerView by lazy { rv_jokes_list_activity_main }
   private val progressBar: ProgressBar by lazy { prog_bar_loading_jokes_activity_main }
@@ -79,14 +81,13 @@ class MainActivity : BaseActivity(), MainContract.View {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    presenter = MainPresenter(this)
     recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-    recyclerView.adapter = JokesListAdapter({ joke -> presenter?.listItemClicked(joke) }, null)
+    recyclerView.adapter = JokesListAdapter({ joke -> presenter.listItemClicked(joke) }, null)
   }
 
   override fun onResume() {
     super.onResume()
-    presenter?.onViewCreated()
+    presenter.onViewCreated()
     BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
   }
 
@@ -96,12 +97,11 @@ class MainActivity : BaseActivity(), MainContract.View {
   }
 
   override fun onDestroy() {
-    presenter?.onDestroy()
-    presenter = null
+    presenter.onDestroy()
     super.onDestroy()
   }
 
-  override fun getToolbarInstance(): Toolbar? = toolbar
+  override fun getToolbarInstance(): Toolbar = toolbar
 
   override fun showLoading() {
     recyclerView.isEnabled = false
