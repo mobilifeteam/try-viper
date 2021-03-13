@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">smartdevice.tnis.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">VnmnvYfnFZrDqkQl2cmPw5U40NYVfo18hAOQAd2Bom0=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">smartdevicenonprd.gsb.or.th</domain>
+        <pin-set>
+            <pin digest="SHA-256">Fo96SRwD94bA2Xn1sAMop4Ad5qdUWjlb5F+uj9dmEak=</pin>
+            <pin digest="SHA-256">nKWcsYrc+y5I8vLf1VGByjbt+Hnasjl+9h8lNKJytoE=</pin>
+            <!--new uat-->
+            <pin digest="SHA-256">LVCkUW9bZkfiYKVT4h86xUmsmAPaSpFWjmiNNDAHxTE=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">smartdevice.gsb.or.th</domain>
+        <pin-set>
+            <pin digest="SHA-256">5sLh1o3V0ILH6uPd6AfoK5cKLuat5wv+dQgYe4Y7XMw=</pin>
+            <pin digest="SHA-256">UUrclr9NL3MR9M9GTzAcVbt7zjo5AEKuhrEWmsJftnM=</pin>
+
+            <!-- new prod -->
+            <pin digest="SHA-256">oxBXXnivf23cW5UMw1Q+rgIoIzAZ1D3bQ/D8aS1tgJo=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>
