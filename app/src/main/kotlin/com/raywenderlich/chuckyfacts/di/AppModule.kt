@@ -3,6 +3,7 @@ package com.raywenderlich.chuckyfacts.di
 import com.raywenderlich.chuckyfacts.DetailContract
 import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.SplashContract
+import com.raywenderlich.chuckyfacts.interactor.MainInteractor
 import com.raywenderlich.chuckyfacts.presenter.DetailPresenter
 import com.raywenderlich.chuckyfacts.presenter.MainPresenter
 import com.raywenderlich.chuckyfacts.presenter.SplashPresenter
@@ -17,7 +18,8 @@ val appModule = module {
         scoped<SplashContract.Presenter> { (view: SplashContract.View) -> SplashPresenter(view) }
     }
     scope(named<MainActivity>()) {
-        scoped<MainContract.Presenter> { (view: MainContract.View) -> MainPresenter(view) }
+        scoped<MainContract.Presenter> { (view: MainContract.View) -> MainPresenter(view, get()) }
+        scoped<MainContract.Interactor> { MainInteractor() }
     }
     scope(named<DetailActivity>()) {
         scoped<DetailContract.Presenter> { (view: DetailContract.View) -> DetailPresenter(view) }

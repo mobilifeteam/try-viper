@@ -37,6 +37,7 @@ interface MainContract {
 
     interface Presenter {
         val view: View
+        val interactor: Interactor
 
         // User actions
         fun listItemClicked(joke: Joke?)

@@ -42,9 +42,11 @@ import com.raywenderlich.chuckyfacts.view.activities.DetailActivity
 import ru.terrakok.cicerone.Router
 
 
-class MainPresenter(override var view: MainContract.View) : MainContract.Presenter, MainContract.InteractorOutput {
+class MainPresenter(override var view: MainContract.View,
+                    override val interactor: MainContract.Interactor)
+    : MainContract.Presenter,
+        MainContract.InteractorOutput {
 
-    private var interactor: MainContract.Interactor? = MainInteractor()
     private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
 
     override fun listItemClicked(joke: Joke?) {
@@ -53,7 +55,7 @@ class MainPresenter(override var view: MainContract.View) : MainContract.Present
 
     override fun onViewCreated() {
         view.showLoading()
-        interactor?.loadJokesList { result ->
+        interactor.loadJokesList { result ->
             when (result) {
                 is Result.Failure -> {
                     this.onQueryError()
@@ -81,7 +83,5 @@ class MainPresenter(override var view: MainContract.View) : MainContract.Present
         view.showInfoMessage("Error when loading data")
     }
 
-    override fun onDestroy() {
-        interactor = null
-    }
+    override fun onDestroy() {}
 }
