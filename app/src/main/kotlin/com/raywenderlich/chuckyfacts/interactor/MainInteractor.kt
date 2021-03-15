@@ -37,17 +37,24 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.raywenderlich.chuckyfacts.MainContract
+import com.raywenderlich.chuckyfacts.data.remote.AuthenticationRepository
+import com.raywenderlich.chuckyfacts.entity.Salt
 
 
-class MainInteractor : MainContract.Interactor {
+class MainInteractor(override val authenticationRepository: AuthenticationRepository)
+    : MainContract.Interactor {
 
-  companion object {
-    val icndbUrl = "https://api.icndb.com/jokes"
-  }
-
-  override fun loadJokesList(interactorOutput: (result: Result<Json, FuelError>) -> Unit) {
-    icndbUrl.httpPost().responseJson { _, _, result ->
-      interactorOutput(result)
+    companion object {
+        const val icndbUrl = "https://api.icndb.com/jokes"
     }
-  }
+
+    override fun loadJokesList(interactorOutput: (result: Result<Json, FuelError>) -> Unit) {
+        icndbUrl.httpPost().responseJson { _, _, result ->
+            interactorOutput(result)
+        }
+    }
+
+    override suspend fun getSalt(): com.raywenderlich.chuckyfacts.data.remote.Result<Salt> {
+        return authenticationRepository.challengeSalt()
+    }
 }

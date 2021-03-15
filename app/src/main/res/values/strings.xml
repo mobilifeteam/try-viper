@@ -1,3 +1,4 @@
 <resources>
-  <string name="app_name">Chucky Facts</string>
+    <string name="app_name">Chucky Facts</string>
+    <string name="text_salt">Salt: %s</string>
 </resources>

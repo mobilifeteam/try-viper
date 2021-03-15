@@ -25,18 +25,17 @@ package com.raywenderlich.chuckyfacts.view.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.chuckyfacts.BaseApplication
 import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.R
-import com.raywenderlich.chuckyfacts.SplashContract
 import com.raywenderlich.chuckyfacts.entity.Joke
-import com.raywenderlich.chuckyfacts.presenter.MainPresenter
 import com.raywenderlich.chuckyfacts.view.adapters.JokesListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
@@ -64,8 +63,8 @@ class MainActivity : BaseActivity(), MainContract.View {
                 val data = (command.transitionData as Joke)
 
                 when (command.screenKey) {
-                  DetailActivity.TAG -> startActivity(Intent(this@MainActivity, DetailActivity::class.java)
-                          .putExtra("data", data as Parcelable))   // 4
+                    DetailActivity.TAG -> startActivity(Intent(this@MainActivity, DetailActivity::class.java)
+                            .putExtra("data", data as Parcelable))   // 4
                     else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
                 }
             }
@@ -76,6 +75,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
     private val recyclerView: RecyclerView by lazy { rv_jokes_list_activity_main }
     private val progressBar: ProgressBar by lazy { prog_bar_loading_jokes_activity_main }
+    private val textSalt: TextView by lazy { tv_salt }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,9 +115,14 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun publishDataList(data: List<Joke>) {
         (recyclerView.adapter as JokesListAdapter).updateData(data)
+        presenter.getSalt()
     }
 
     override fun showInfoMessage(msg: String) {
         toast(msg)
+    }
+
+    override fun showSalt(salt: String) {
+        textSalt.text = getString(R.string.text_salt, salt)
     }
 }

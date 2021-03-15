@@ -25,7 +25,9 @@ package com.raywenderlich.chuckyfacts
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.result.Result
+import com.raywenderlich.chuckyfacts.data.remote.AuthenticationRepository
 import com.raywenderlich.chuckyfacts.entity.Joke
+import com.raywenderlich.chuckyfacts.entity.Salt
 
 interface MainContract {
     interface View {
@@ -33,6 +35,7 @@ interface MainContract {
         fun hideLoading()
         fun publishDataList(data: List<Joke>)
         fun showInfoMessage(msg: String)
+        fun showSalt(salt: String)
     }
 
     interface Presenter {
@@ -41,6 +44,7 @@ interface MainContract {
 
         // User actions
         fun listItemClicked(joke: Joke?)
+        fun getSalt()
 
         // Model updates
         fun onViewCreated()
@@ -49,7 +53,10 @@ interface MainContract {
     }
 
     interface Interactor {
+        val authenticationRepository: AuthenticationRepository
+
         fun loadJokesList(interactorOutput: (result: Result<Json, FuelError>) -> Unit)
+        suspend fun getSalt(): com.raywenderlich.chuckyfacts.data.remote.Result<Salt>
     }
 
     interface InteractorOutput {

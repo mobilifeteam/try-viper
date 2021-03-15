@@ -39,18 +39,44 @@ import com.raywenderlich.chuckyfacts.MainContract
 import com.raywenderlich.chuckyfacts.entity.Joke
 import com.raywenderlich.chuckyfacts.interactor.MainInteractor
 import com.raywenderlich.chuckyfacts.view.activities.DetailActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import ru.terrakok.cicerone.Router
+import kotlin.coroutines.CoroutineContext
 
 
 class MainPresenter(override var view: MainContract.View,
                     override val interactor: MainContract.Interactor)
     : MainContract.Presenter,
-        MainContract.InteractorOutput {
+        MainContract.InteractorOutput,
+        CoroutineScope {
 
     private val router: Router? by lazy { BaseApplication.INSTANCE.cicerone.router }
 
     override fun listItemClicked(joke: Joke?) {
         router?.navigateTo(DetailActivity.TAG, joke)
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
+
+    private var job: Job? = null
+
+    override fun getSalt() {
+        job = launch {
+            getSaltAsync()
+        }
+    }
+
+    private suspend fun getSaltAsync() {
+        view.showLoading()
+        when (val result = interactor.getSalt()) {
+            is com.raywenderlich.chuckyfacts.data.remote.Result.Success -> view.showSalt(result.data.challengeToken)
+            is com.raywenderlich.chuckyfacts.data.remote.Result.Error -> result.throwable.message?.let { view.showInfoMessage(it) }
+        }
+        view.hideLoading()
     }
 
     override fun onViewCreated() {
