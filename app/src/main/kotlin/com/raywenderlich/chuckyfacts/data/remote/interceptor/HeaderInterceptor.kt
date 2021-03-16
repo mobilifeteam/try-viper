@@ -14,7 +14,7 @@ class HeaderInterceptor : Interceptor {
                 "x-device",
                 "Google (${Build.MANUFACTURER} ${Build.MODEL}) android (${Build.VERSION.RELEASE})"
         )
-        builder.header("x-application", "SUMO CASH WITHDRAWAL (" + BuildConfig.VERSION_NAME + ")")
+        builder.header("x-application", "TRY VIPER (" + BuildConfig.VERSION_NAME + ")")
         builder.header("accept-language", "th")
 
         val request = builder

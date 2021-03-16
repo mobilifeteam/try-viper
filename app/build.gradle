@@ -7,8 +7,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 def versionMajor = 1   //Ultimate change UI, Flow, API
-def versionMinor = 2  //Add new features
-def versionPatch = 5  //Fix bugs
+def versionMinor = 0  //Add new features
+def versionPatch = 0  //Fix bugs
 
 android {
     compileSdkVersion rootProject.ext.compilesdk_version
