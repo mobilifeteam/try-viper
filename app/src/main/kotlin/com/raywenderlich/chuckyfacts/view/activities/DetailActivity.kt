@@ -24,44 +24,24 @@ package com.raywenderlich.chuckyfacts.view.activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import com.raywenderlich.chuckyfacts.BaseApplication
-import com.raywenderlich.chuckyfacts.DetailContract
+import androidx.fragment.app.Fragment
 import com.raywenderlich.chuckyfacts.R
 import com.raywenderlich.chuckyfacts.entity.Joke
-import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
-import org.jetbrains.anko.toast
-import org.koin.core.parameter.parametersOf
-import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.commands.Back
-import ru.terrakok.cicerone.commands.Command
 
-class DetailActivity : BaseActivity(), DetailContract.View {
+class DetailActivity : BaseActivity() {
 
     companion object {
         const val TAG = "DetailActivity"
     }
 
-    private val navigator: Navigator? by lazy {
-        object : Navigator {
-            override fun applyCommand(command: Command) {
-                if (command is Back) {
-                    back()
-                }
-            }
-
-            private fun back() {
-                finish()
-            }
-        }
-    }
-
-    private val presenter: DetailContract.Presenter by inject { parametersOf(this) }
     private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
-    private val tvId: TextView? by lazy { tv_joke_id_activity_detail }
-    private val tvJoke: TextView? by lazy { tv_joke_activity_detail }
+
+    override fun fragment(): Fragment {
+        return DetailFragment.newInstance(intent.getParcelableExtra<Joke>("data"))
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,36 +54,16 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         supportActionBar?.let {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-        // load invoking arguments
-        val argument = intent.getParcelableExtra<Joke>("data")
-        argument?.let { presenter.onViewCreated(it) }
-
-        BaseApplication.INSTANCE.cicerone.navigatorHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                presenter.backButtonClicked()
-                true
+                false
             }
             else -> false
         }
     }
 
     override fun getToolbarInstance(): Toolbar = toolbar
-
-    override fun showJokeData(id: String, joke: String) {
-        tvId?.text = id
-        tvJoke?.text = joke
-    }
-
-    override fun showInfoMessage(msg: String) {
-        toast(msg)
-    }
 }
