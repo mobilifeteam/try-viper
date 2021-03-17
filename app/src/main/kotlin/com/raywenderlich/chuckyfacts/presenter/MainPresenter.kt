@@ -70,10 +70,24 @@ class MainPresenter(override var view: MainContract.View,
         }
     }
 
+    override fun getAnnouncement() {
+        job = launch {
+            view.showLoading()
+            when (val result = interactor.getAnnouncement()) {
+                is com.raywenderlich.chuckyfacts.data.remote.Result.Success -> result.data?.message?.let { view.showAnnouncement(it) }
+                is com.raywenderlich.chuckyfacts.data.remote.Result.Error -> result.throwable.message?.let { view.showInfoMessage(it) }
+            }
+            view.hideLoading()
+        }
+    }
+
     private suspend fun getSaltAsync() {
         view.showLoading()
         when (val result = interactor.getSalt()) {
-            is com.raywenderlich.chuckyfacts.data.remote.Result.Success -> view.showSalt(result.data.challengeToken)
+            is com.raywenderlich.chuckyfacts.data.remote.Result.Success -> {
+                view.showSalt(result.data.challengeToken)
+                getAnnouncement()
+            }
             is com.raywenderlich.chuckyfacts.data.remote.Result.Error -> result.throwable.message?.let { view.showInfoMessage(it) }
         }
         view.hideLoading()

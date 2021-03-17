@@ -23,10 +23,12 @@
 package com.raywenderlich.chuckyfacts.view.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -76,6 +78,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private val recyclerView: RecyclerView by lazy { rv_jokes_list_activity_main }
     private val progressBar: ProgressBar by lazy { prog_bar_loading_jokes_activity_main }
     private val textSalt: TextView by lazy { tv_salt }
+    private val webViewAnnouncement: WebView by lazy { wv_announcement }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,5 +127,14 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun showSalt(salt: String) {
         textSalt.text = getString(R.string.text_salt, salt)
+    }
+
+    override fun showAnnouncement(content: String) {
+        webViewAnnouncement.setBackgroundColor(Color.TRANSPARENT)
+        webViewAnnouncement.loadDataWithBaseURL(null,
+                content,
+                "text/html",
+                "utf-8", null
+        )
     }
 }

@@ -8,9 +8,9 @@ import com.squareup.moshi.JsonClass
 data class ChallengeSaltResponse(
         @Json(name = "challenge_token")
         val challengeToken: String = ""
-)
-
-fun ChallengeSaltResponse.mapToSalt(): Salt {
-    return Salt(challengeToken)
+) {
+    fun mapToSalt(): Salt {
+        return Salt(challengeToken)
+    }
 }
 

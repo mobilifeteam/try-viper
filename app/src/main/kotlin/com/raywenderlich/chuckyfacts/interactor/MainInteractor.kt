@@ -37,11 +37,14 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.raywenderlich.chuckyfacts.MainContract
+import com.raywenderlich.chuckyfacts.data.remote.AnnouncementRepository
 import com.raywenderlich.chuckyfacts.data.remote.AuthenticationRepository
+import com.raywenderlich.chuckyfacts.entity.Announcement
 import com.raywenderlich.chuckyfacts.entity.Salt
 
 
-class MainInteractor(override val authenticationRepository: AuthenticationRepository)
+class MainInteractor(override val authenticationRepository: AuthenticationRepository,
+                     override val announcementRepository: AnnouncementRepository)
     : MainContract.Interactor {
 
     companion object {
@@ -57,4 +60,10 @@ class MainInteractor(override val authenticationRepository: AuthenticationReposi
     override suspend fun getSalt(): com.raywenderlich.chuckyfacts.data.remote.Result<Salt> {
         return authenticationRepository.challengeSalt()
     }
+
+    override suspend fun getAnnouncement(): com.raywenderlich.chuckyfacts.data.remote.Result<Announcement?> {
+        return announcementRepository.getAnnouncement()
+    }
+
+
 }

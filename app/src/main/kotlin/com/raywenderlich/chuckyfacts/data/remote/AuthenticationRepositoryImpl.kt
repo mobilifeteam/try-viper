@@ -1,7 +1,6 @@
 package com.raywenderlich.chuckyfacts.data.remote
 
 import com.raywenderlich.chuckyfacts.data.remote.model.login.ChallengeSaltRequest
-import com.raywenderlich.chuckyfacts.data.remote.model.login.mapToSalt
 import com.raywenderlich.chuckyfacts.data.remote.service.AuthenticationService
 import com.raywenderlich.chuckyfacts.entity.Salt
 

@@ -1,6 +1,7 @@
 package com.raywenderlich.chuckyfacts.data.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.raywenderlich.chuckyfacts.BuildConfig
 import com.raywenderlich.chuckyfacts.data.remote.interceptor.HeaderInterceptor
 import com.raywenderlich.chuckyfacts.data.remote.service.AuthenticationService
 import com.squareup.moshi.Moshi
@@ -13,13 +14,17 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ServiceFactory {
+
     private val moshi: Moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
 
     private val callAdapterFactory: CallAdapter.Factory = CoroutineCallAdapterFactory()
 
-    fun createNetworkClient(endPoint: String) = retrofitClient(httpClient(), endPoint)
+    fun <T> create(serviceType: Class<T>, endPoint: String) = retrofitClient(
+            serviceType,
+            httpClient(),
+            endPoint)
 
     private fun httpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -34,11 +39,13 @@ object ServiceFactory {
         return okHttpClient.build()
     }
 
-    private fun retrofitClient(httpClient: OkHttpClient, endPoint: String): AuthenticationService =
+    private fun <T> retrofitClient(serviceType: Class<T>,
+                                   httpClient: OkHttpClient,
+                                   endPoint: String): T =
             Retrofit.Builder()
                     .baseUrl(endPoint)
                     .client(httpClient)
                     .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .addCallAdapterFactory(callAdapterFactory)
-                    .build().create(AuthenticationService::class.java)
+                    .build().create(serviceType)
 }
