@@ -9,22 +9,22 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ServiceFactory {
 
-    private val moshi: Moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-
-    private val callAdapterFactory: CallAdapter.Factory = CoroutineCallAdapterFactory()
-
-    fun <T> create(serviceType: Class<T>, endPoint: String) = retrofitClient(
-            serviceType,
-            httpClient(),
-            endPoint)
+    fun <T> create(converterFactory: Converter.Factory,
+                   callAdapterFactory: CallAdapter.Factory,
+                   serviceType: Class<T>,
+                   endPoint: String) =
+            retrofitClient(converterFactory,
+                    callAdapterFactory,
+                    serviceType,
+                    httpClient(),
+                    endPoint)
 
     private fun httpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -39,13 +39,16 @@ object ServiceFactory {
         return okHttpClient.build()
     }
 
-    private fun <T> retrofitClient(serviceType: Class<T>,
+    private fun <T> retrofitClient(converterFactory: Converter.Factory,
+                                   callAdapterFactory: CallAdapter.Factory,
+                                   serviceType: Class<T>,
                                    httpClient: OkHttpClient,
                                    endPoint: String): T =
             Retrofit.Builder()
                     .baseUrl(endPoint)
                     .client(httpClient)
-                    .addConverterFactory(MoshiConverterFactory.create(moshi))
+                    .addConverterFactory(converterFactory)
                     .addCallAdapterFactory(callAdapterFactory)
-                    .build().create(serviceType)
+                    .build()
+                    .create(serviceType)
 }
