@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.mobilife.employyim.view.adapters
+package com.mobilife.employyim.view.mainpage.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import android.text.Html

@@ -3,6 +3,7 @@ package com.mobilife.employyim.di
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mobilife.employyim.BuildConfig
 import com.mobilife.employyim.contract.DetailContract
+import com.mobilife.employyim.contract.LoginContract
 import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.contract.SplashContract
 import com.mobilife.employyim.data.remote.*
@@ -10,12 +11,14 @@ import com.mobilife.employyim.data.remote.service.AnnouncementService
 import com.mobilife.employyim.data.remote.service.AuthenticationService
 import com.mobilife.employyim.interactor.MainInteractor
 import com.mobilife.employyim.presenter.DetailPresenter
+import com.mobilife.employyim.presenter.LoginPresenter
 import com.mobilife.employyim.presenter.MainPresenter
 import com.mobilife.employyim.presenter.SplashPresenter
 import com.mobilife.employyim.utils.DeviceUtils
-import com.mobilife.employyim.view.activities.*
 import com.mobilife.employyim.view.detail.DetailActivity
 import com.mobilife.employyim.view.detail.DetailFragment
+import com.mobilife.employyim.view.login.LoginActivity
+import com.mobilife.employyim.view.login.LoginFragment
 import com.mobilife.employyim.view.mainpage.MainActivity
 import com.mobilife.employyim.view.mainpage.MainFragment
 import com.mobilife.employyim.view.splashscreen.SplashActivity
@@ -65,6 +68,11 @@ val appModule = module {
     /* Activity & Fragment */
     scope(named<SplashActivity>()) {
         scoped<SplashContract.Presenter> { (view: SplashContract.View) -> SplashPresenter(view) }
+    }
+    scope(named<LoginActivity>()) {
+        scope(named<LoginFragment>()) {
+            scoped<LoginContract.Presenter> { (view: LoginContract.View) -> LoginPresenter(view) }
+        }
     }
     scope(named<MainActivity>()) {
         scope(named<MainFragment>()) {
