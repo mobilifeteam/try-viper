@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.mobilife.employyim.view.login.WelcomeActivity" />
         <activity android:name="com.mobilife.employyim.view.login.LoginActivity" />
         <activity android:name="com.mobilife.employyim.view.mainpage.MainActivity" />
         <activity android:name="com.mobilife.employyim.view.detail.DetailActivity" />

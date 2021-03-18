@@ -7,19 +7,19 @@ import com.mobilife.employyim.R
 import com.mobilife.employyim.view.BaseActivity
 import com.mobilife.employyim.utils.makeStatusBarTransparent
 
-class LoginActivity : BaseActivity() {
+class WelcomeActivity : BaseActivity() {
 
     companion object {
-        const val TAG = "LoginActivity"
+        const val TAG = "WelcomeActivity"
     }
 
     override fun fragment(): Fragment {
-        return LoginFragment.newInstance()
+        return WelcomeFragment.newInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_welcome)
         makeStatusBarTransparent()
     }
 

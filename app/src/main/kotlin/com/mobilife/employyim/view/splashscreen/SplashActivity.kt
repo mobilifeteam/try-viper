@@ -4,7 +4,7 @@ import android.content.Intent
 import android.util.Log
 import com.mobilife.employyim.BaseApplication
 import com.mobilife.employyim.contract.SplashContract
-import com.mobilife.employyim.view.login.LoginActivity
+import com.mobilife.employyim.view.login.WelcomeActivity
 import com.mobilife.employyim.view.mainpage.MainActivity
 import org.koin.androidx.scope.ScopeActivity
 import org.koin.core.parameter.parametersOf
@@ -25,7 +25,7 @@ class SplashActivity : ScopeActivity(), SplashContract.View {
 
             private fun forward(command: Forward) {
                 when (command.screenKey) {
-                    MainActivity.TAG -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    WelcomeActivity.TAG -> startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
                     else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
                 }
             }

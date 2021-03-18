@@ -2,36 +2,29 @@ package com.mobilife.employyim.view.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import androidx.core.view.ViewCompat
+import androidx.transition.TransitionInflater
 import com.mobilife.employyim.BaseApplication
 import com.mobilife.employyim.R
-import com.mobilife.employyim.contract.LoginContract
-import com.mobilife.employyim.entity.Joke
+import com.mobilife.employyim.contract.WelcomeContract
 import com.mobilife.employyim.utils.setMarginTop
-import com.mobilife.employyim.view.detail.DetailActivity
-import com.mobilife.employyim.view.widget.CustomInputView
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.koin.androidx.scope.ScopeFragment
 import org.koin.core.parameter.parametersOf
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Forward
 
-class LoginFragment : ScopeFragment(), LoginContract.View {
+class WelcomeFragment : ScopeFragment(), WelcomeContract.View {
 
-    private val presenter: LoginContract.Presenter by inject { parametersOf(this) }
-    private val inputUsername: CustomInputView? by lazy { custom_username }
-    private val inputPassword: CustomInputView? by lazy { custom_password }
-    private val textErrorMsg: TextView? by lazy { tv_error_msg }
-    private val btnLogin: ViewGroup? by lazy { btn_login }
+    private val presenter: WelcomeContract.Presenter by inject { parametersOf(this) }
+    private val group: Group? by lazy { group_welcome_layout }
+    private val btnStart: ViewGroup? by lazy { btn_start }
 
     private val navigator: Navigator? by lazy {
         object : Navigator {
@@ -42,11 +35,8 @@ class LoginFragment : ScopeFragment(), LoginContract.View {
             }
 
             private fun forward(command: Forward) {
-                val data = (command.transitionData as Joke)
-
                 when (command.screenKey) {
-                    DetailActivity.TAG -> startActivity(Intent(context, DetailActivity::class.java)
-                            .putExtra("data", data as Parcelable))
+                    LoginActivity.TAG -> startActivity(Intent(context, LoginActivity::class.java))
                     else -> Log.e("Cicerone", "Unknown screen: " + command.screenKey)
                 }
             }
@@ -54,15 +44,14 @@ class LoginFragment : ScopeFragment(), LoginContract.View {
     }
 
     companion object {
-        fun newInstance() = LoginFragment()
+        fun newInstance() = WelcomeFragment()
     }
-
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_welcome, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,13 +60,17 @@ class LoginFragment : ScopeFragment(), LoginContract.View {
     }
 
     private fun initInstance() {
-        textErrorMsg?.visibility = View.GONE
-        inputUsername?.setUpView("Username", "", false)
-        inputPassword?.setUpView("Password", "", true)
+        activity?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(it.findViewById(R.id.container)) { _, insets ->
+                group?.setMarginTop(insets.systemWindowInsetTop)
+                insets.consumeSystemWindowInsets()
+            }
+        }
 
-        btnLogin?.setOnClickListener {  }
+        btnStart?.setOnClickListener {
+            presenter.onClickStart()
+        }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -89,7 +82,5 @@ class LoginFragment : ScopeFragment(), LoginContract.View {
         BaseApplication.INSTANCE.cicerone.navigatorHolder.removeNavigator()
     }
 
-    override fun finishView() {
-
-    }
+    override fun finishView() {}
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|top"
+        android:minHeight="24dp"
+        android:text="Title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_h4"
+        app:layout_constraintStart_toStartOf="@+id/et_value"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_white_round_corners"
+        android:gravity="center_vertical"
+        android:hint="Hint..."
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="20dp"
+        android:textSize="@dimen/text_h5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal|top"
+        android:minHeight="24dp"
+        android:text="Alert"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/text_h4"
+        app:layout_constraintEnd_toEndOf="@+id/et_value"
+        app:layout_constraintTop_toBottomOf="@+id/et_value" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

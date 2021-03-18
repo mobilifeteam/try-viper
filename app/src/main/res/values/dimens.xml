@@ -18,6 +18,7 @@
     <dimen name="text_h2">24sp</dimen>
     <dimen name="text_h3">20sp</dimen>
     <dimen name="text_h4">18sp</dimen>
+    <dimen name="text_h5">16sp</dimen>
     <dimen name="text_body">16sp</dimen>
     <dimen name="text_link">18sp</dimen>
 </resources>
