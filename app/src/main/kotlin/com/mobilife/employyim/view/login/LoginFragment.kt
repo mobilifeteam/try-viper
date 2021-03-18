@@ -75,7 +75,13 @@ class LoginFragment : ScopeFragment(), LoginContract.View {
         inputUsername?.setUpView("Username", "", false)
         inputPassword?.setUpView("Password", "", true)
 
-        btnLogin?.setOnClickListener {  }
+        btnLogin?.setOnClickListener {
+            textErrorMsg?.visibility = if(textErrorMsg?.visibility == View.GONE) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
     }
 
 
