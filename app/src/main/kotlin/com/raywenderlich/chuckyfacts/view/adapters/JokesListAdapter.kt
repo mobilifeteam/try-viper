@@ -53,7 +53,7 @@ class JokesListAdapter(private var listener: (Joke?) -> Unit, private var dataLi
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.tvId?.text = dataList?.let { it[position].id.toString() }
     holder.tvJoke?.text = dataList?.let { Html.fromHtml(it[position].text, Html.FROM_HTML_MODE_LEGACY) }
-    holder.itemView?.setOnClickListener { listener(dataList?.get(position)) }
+      holder.itemView.setOnClickListener { listener(dataList?.get(position)) }
   }
 
   fun updateData(list: List<Joke>) {
