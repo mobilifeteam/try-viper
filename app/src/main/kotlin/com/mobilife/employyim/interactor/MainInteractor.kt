@@ -36,7 +36,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.mobilife.employyim.MainContract
+import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.data.remote.AnnouncementRepository
 import com.mobilife.employyim.data.remote.AuthenticationRepository
 import com.mobilife.employyim.entity.Announcement

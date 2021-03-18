@@ -20,17 +20,23 @@
  * THE SOFTWARE.
  */
 
-package com.mobilife.employyim
+package com.mobilife.employyim.contract
 
-interface SplashContract {
+import com.mobilife.employyim.entity.Joke
+
+interface DetailContract {
     interface View {
-        fun finishView()
+        fun showJokeData(id: String, joke: String)
+        fun showInfoMessage(msg: String)
     }
 
     interface Presenter {
         val view: View
 
+        // User actions
+        fun backButtonClicked()
+
         // Model updates
-        fun onViewCreated()
+        fun onViewCreated(joke: Joke)
     }
 }

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.mobilife.employyim
+package com.mobilife.employyim.contract
 
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.core.FuelError

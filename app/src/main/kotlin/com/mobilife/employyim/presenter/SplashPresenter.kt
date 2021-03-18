@@ -32,7 +32,7 @@
 package com.mobilife.employyim.presenter
 
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.SplashContract
+import com.mobilife.employyim.contract.SplashContract
 import com.mobilife.employyim.view.activities.MainActivity
 import ru.terrakok.cicerone.Router
 

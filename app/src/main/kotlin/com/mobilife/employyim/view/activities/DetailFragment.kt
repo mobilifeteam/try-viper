@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.DetailContract
+import com.mobilife.employyim.contract.DetailContract
 import com.mobilife.employyim.R
 import com.mobilife.employyim.entity.Joke
 import kotlinx.android.synthetic.main.fragment_detail.*

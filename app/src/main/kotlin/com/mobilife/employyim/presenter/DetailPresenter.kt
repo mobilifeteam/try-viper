@@ -32,7 +32,7 @@
 package com.mobilife.employyim.presenter
 
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.DetailContract
+import com.mobilife.employyim.contract.DetailContract
 import com.mobilife.employyim.entity.Joke
 import ru.terrakok.cicerone.Router
 

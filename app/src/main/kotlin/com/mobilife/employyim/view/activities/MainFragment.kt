@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.MainContract
+import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.R
 import com.mobilife.employyim.entity.Joke
 import com.mobilife.employyim.view.adapters.JokesListAdapter

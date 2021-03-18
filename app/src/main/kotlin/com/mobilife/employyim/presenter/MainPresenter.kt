@@ -35,7 +35,7 @@ import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.MainContract
+import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.entity.Joke
 import com.mobilife.employyim.view.activities.DetailActivity
 import kotlinx.coroutines.CoroutineScope

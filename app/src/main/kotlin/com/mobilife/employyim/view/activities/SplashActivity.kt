@@ -25,7 +25,7 @@ package com.mobilife.employyim.view.activities
 import android.content.Intent
 import android.util.Log
 import com.mobilife.employyim.BaseApplication
-import com.mobilife.employyim.SplashContract
+import com.mobilife.employyim.contract.SplashContract
 import org.koin.androidx.scope.ScopeActivity
 import org.koin.core.parameter.parametersOf
 import ru.terrakok.cicerone.Navigator

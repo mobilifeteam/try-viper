@@ -2,9 +2,9 @@ package com.mobilife.employyim.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mobilife.employyim.BuildConfig
-import com.mobilife.employyim.DetailContract
-import com.mobilife.employyim.MainContract
-import com.mobilife.employyim.SplashContract
+import com.mobilife.employyim.contract.DetailContract
+import com.mobilife.employyim.contract.MainContract
+import com.mobilife.employyim.contract.SplashContract
 import com.mobilife.employyim.data.remote.*
 import com.mobilife.employyim.data.remote.service.AnnouncementService
 import com.mobilife.employyim.data.remote.service.AuthenticationService
