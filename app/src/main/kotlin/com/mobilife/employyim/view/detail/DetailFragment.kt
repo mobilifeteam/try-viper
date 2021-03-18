@@ -1,4 +1,4 @@
-package com.mobilife.employyim.view.activities
+package com.mobilife.employyim.view.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

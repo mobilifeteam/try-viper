@@ -20,44 +20,31 @@
  * THE SOFTWARE.
  */
 
-package com.mobilife.employyim.view.activities
+package com.mobilife.employyim.view.mainpage
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.mobilife.employyim.R
-import org.koin.androidx.scope.ScopeActivity
+import com.mobilife.employyim.view.BaseActivity
+import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
 
-abstract class BaseActivity : ScopeActivity() {
-  abstract fun fragment(): Fragment
+class MainActivity : BaseActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    addFragment(savedInstanceState)
-  }
-
-  private fun fragmentTag(): String {
-    return fragment()::javaClass.name
-  }
-
-  private fun addFragment(savedInstanceState: Bundle?) {
-    if (savedInstanceState == null) {
-      supportFragmentManager.beginTransaction()
-              .replace(R.id.container, fragment(), fragmentTag())
-              .commitNow()
+    companion object {
+        const val TAG: String = "MainActivity"
     }
-  }
 
-  override fun onResume() {
-    super.onResume()
-    this.getToolbarInstance()?.let { this.initView(it) }
-  }
+    private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
 
-  private fun initView(toolbar: Toolbar) {
-    // Toolbar setup
-    // Replaces the 'ActionBar' with the 'Toolbar'
-    setSupportActionBar(toolbar)
-  }
+    override fun fragment(): Fragment {
+        return MainFragment.newInstance()
+    }
 
-  abstract fun getToolbarInstance(): Toolbar?
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    override fun getToolbarInstance(): Toolbar = toolbar
 }

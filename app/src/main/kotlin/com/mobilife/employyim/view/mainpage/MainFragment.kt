@@ -1,4 +1,4 @@
-package com.mobilife.employyim.view.activities
+package com.mobilife.employyim.view.mainpage
 
 import android.content.Intent
 import android.graphics.Color
@@ -17,7 +17,8 @@ import com.mobilife.employyim.BaseApplication
 import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.R
 import com.mobilife.employyim.entity.Joke
-import com.mobilife.employyim.view.adapters.JokesListAdapter
+import com.mobilife.employyim.view.detail.DetailActivity
+import com.mobilife.employyim.view.mainpage.adapters.JokesListAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.toast
 import org.koin.androidx.scope.ScopeFragment

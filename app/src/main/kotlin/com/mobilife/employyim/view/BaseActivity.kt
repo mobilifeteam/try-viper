@@ -20,50 +20,44 @@
  * THE SOFTWARE.
  */
 
-package com.mobilife.employyim.view.activities
+package com.mobilife.employyim.view
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.mobilife.employyim.R
-import com.mobilife.employyim.entity.Joke
-import kotlinx.android.synthetic.main.toolbar_view_custom_layout.*
+import org.koin.androidx.scope.ScopeActivity
 
-class DetailActivity : BaseActivity() {
+abstract class BaseActivity : ScopeActivity() {
+  abstract fun fragment(): Fragment
 
-    companion object {
-        const val TAG = "DetailActivity"
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    addFragment(savedInstanceState)
+  }
+
+  private fun fragmentTag(): String {
+    return fragment()::javaClass.name
+  }
+
+  private fun addFragment(savedInstanceState: Bundle?) {
+    if (savedInstanceState == null) {
+      supportFragmentManager.beginTransaction()
+              .replace(R.id.container, fragment(), fragmentTag())
+              .commitNow()
     }
+  }
 
-    private val toolbar: Toolbar by lazy { toolbar_toolbar_view }
+  override fun onResume() {
+    super.onResume()
+    this.getToolbarInstance()?.let { this.initView(it) }
+  }
 
-    override fun fragment(): Fragment {
-        return DetailFragment.newInstance(intent.getParcelableExtra<Joke>("data"))
+  private fun initView(toolbar: Toolbar) {
+    // Toolbar setup
+    // Replaces the 'ActionBar' with the 'Toolbar'
+    setSupportActionBar(toolbar)
+  }
 
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // add back arrow to toolbar
-        supportActionBar?.let {
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            android.R.id.home -> {
-                false
-            }
-            else -> false
-        }
-    }
-
-    override fun getToolbarInstance(): Toolbar = toolbar
+  abstract fun getToolbarInstance(): Toolbar?
 }

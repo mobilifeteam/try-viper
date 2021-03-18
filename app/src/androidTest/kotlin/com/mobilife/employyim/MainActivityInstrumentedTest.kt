@@ -30,8 +30,8 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 
-import com.mobilife.employyim.view.activities.MainActivity
-import com.mobilife.employyim.view.adapters.JokesListAdapter
+import com.mobilife.employyim.view.mainpage.MainActivity
+import com.mobilife.employyim.view.mainpage.adapters.JokesListAdapter
 
 import org.junit.Rule
 import org.junit.Test

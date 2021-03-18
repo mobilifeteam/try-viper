@@ -14,6 +14,11 @@ import com.mobilife.employyim.presenter.MainPresenter
 import com.mobilife.employyim.presenter.SplashPresenter
 import com.mobilife.employyim.utils.DeviceUtils
 import com.mobilife.employyim.view.activities.*
+import com.mobilife.employyim.view.detail.DetailActivity
+import com.mobilife.employyim.view.detail.DetailFragment
+import com.mobilife.employyim.view.mainpage.MainActivity
+import com.mobilife.employyim.view.mainpage.MainFragment
+import com.mobilife.employyim.view.splashscreen.SplashActivity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.core.qualifier.named

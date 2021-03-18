@@ -37,7 +37,7 @@ import com.google.gson.reflect.TypeToken
 import com.mobilife.employyim.BaseApplication
 import com.mobilife.employyim.contract.MainContract
 import com.mobilife.employyim.entity.Joke
-import com.mobilife.employyim.view.activities.DetailActivity
+import com.mobilife.employyim.view.detail.DetailActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

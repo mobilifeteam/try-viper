@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mobilife.employyim.view.activities.SplashActivity"
+            android:name="com.mobilife.employyim.view.splashscreen.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mobilife.employyim.view.activities.MainActivity" />
-        <activity android:name="com.mobilife.employyim.view.activities.DetailActivity" />
+        <activity android:name="com.mobilife.employyim.view.mainpage.MainActivity" />
+        <activity android:name="com.mobilife.employyim.view.detail.DetailActivity" />
     </application>
 
 </manifest>
