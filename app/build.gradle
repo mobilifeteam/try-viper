@@ -13,7 +13,7 @@ def versionPatch = 0  //Fix bugs
 android {
     compileSdkVersion rootProject.ext.compilesdk_version
     defaultConfig {
-        applicationId "com.raywenderlich.chuckyfacts"
+        applicationId "com.mobilife.employyim"
         minSdkVersion rootProject.ext.minsdk_version
         targetSdkVersion rootProject.ext.targetsdk_version
         versionCode 1

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.raywenderlich.chuckyfacts">
+    package="com.mobilife.employyim">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".BaseApplication"
+        android:name="com.mobilife.employyim.BaseApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activities.SplashActivity"
+            android:name="com.mobilife.employyim.view.activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.MainActivity" />
-        <activity android:name=".view.activities.DetailActivity" />
+        <activity android:name="com.mobilife.employyim.view.activities.MainActivity" />
+        <activity android:name="com.mobilife.employyim.view.activities.DetailActivity" />
     </application>
 
 </manifest>
