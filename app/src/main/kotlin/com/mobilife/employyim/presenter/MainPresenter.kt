@@ -36,6 +36,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobilife.employyim.BaseApplication
 import com.mobilife.employyim.contract.MainContract
+import com.mobilife.employyim.data.remote.ErrorHandler
 import com.mobilife.employyim.entity.Joke
 import com.mobilife.employyim.view.activities.DetailActivity
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +48,8 @@ import kotlin.coroutines.CoroutineContext
 
 
 class MainPresenter(override var view: MainContract.View,
-                    override val interactor: MainContract.Interactor)
+                    override val interactor: MainContract.Interactor,
+                    override var errorHandler: ErrorHandler)
     : MainContract.Presenter,
         MainContract.InteractorOutput,
         CoroutineScope {
@@ -74,7 +76,10 @@ class MainPresenter(override var view: MainContract.View,
             view.showLoading()
             when (val result = interactor.getAnnouncement()) {
                 is com.mobilife.employyim.data.remote.Result.Success -> result.data?.message?.let { view.showAnnouncement(it) }
-                is com.mobilife.employyim.data.remote.Result.Error -> result.throwable.message?.let { view.showInfoMessage(it) }
+                is com.mobilife.employyim.data.remote.Result.Error -> result.throwable.let {
+                    val error = errorHandler.extract(it)
+                    view.showInfoMessage("${error.message} (${error.code})")
+                }
             }
             view.hideLoading()
         }
@@ -87,7 +92,10 @@ class MainPresenter(override var view: MainContract.View,
                 view.showSalt(result.data.challengeToken)
                 getAnnouncement()
             }
-            is com.mobilife.employyim.data.remote.Result.Error -> result.throwable.message?.let { view.showInfoMessage(it) }
+            is com.mobilife.employyim.data.remote.Result.Error -> result.throwable.let {
+                val error = errorHandler.extract(it)
+                view.showInfoMessage("${error.message} (${error.code})")
+            }
         }
         view.hideLoading()
     }

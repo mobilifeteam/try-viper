@@ -27,6 +27,7 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.result.Result
 import com.mobilife.employyim.data.remote.AnnouncementRepository
 import com.mobilife.employyim.data.remote.AuthenticationRepository
+import com.mobilife.employyim.data.remote.ErrorHandler
 import com.mobilife.employyim.entity.Announcement
 import com.mobilife.employyim.entity.Joke
 import com.mobilife.employyim.entity.Salt
@@ -44,6 +45,7 @@ interface MainContract {
     interface Presenter {
         val view: View
         val interactor: Interactor
+        var errorHandler: ErrorHandler
 
         // User actions
         fun listItemClicked(joke: Joke?)
