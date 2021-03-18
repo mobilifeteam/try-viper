@@ -32,6 +32,8 @@ val appModule = module {
     /* Utils */
     single { DeviceUtils }
 
+    /* Error Handler */
+    single { ErrorHandler() }
 
     /* Network */
     factory {
@@ -66,7 +68,7 @@ val appModule = module {
     }
     scope(named<MainActivity>()) {
         scope(named<MainFragment>()) {
-            scoped<MainContract.Presenter> { (view: MainContract.View) -> MainPresenter(view, get()) }
+            scoped<MainContract.Presenter> { (view: MainContract.View) -> MainPresenter(view, get(), get()) }
             scoped<MainContract.Interactor> { MainInteractor(get(), get()) }
         }
     }
